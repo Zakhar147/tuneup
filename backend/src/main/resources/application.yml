@@ -2,9 +2,9 @@ spring:
   app:
     tabs-dir: tabs/
   datasource:
-    url: #{your database url}
-    username: #{username for database }
-    password: #{password for database }
+    url: jdbc:postgresql://postgres:5432/tuneup_db #{your database url}
+    username: admin #{username for database }
+    password: admin #{password for database }
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -18,8 +18,8 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: #{usename for mail system }
-    password: #{password for mail system }
+    username: zaharkhachaturyan@gmail.com #{usename for mail system }
+    password: "hunzxtefaymbnayh" #{password for mail system }
     properties:
       mail:
         smtp:
@@ -28,11 +28,11 @@ spring:
             enable: true
   data:
     redis:
-      url: #{your database url}
+      url: redis://redis:6379 #{your database url}
 
 jwt:
-  secret: #{your secret}
+  secret: c2VjdXJlLWp3dC1rZXktaGVyZS1wbGVhc2UtYmUtY2FyZWZ1bA== #{your secret}
   accessExpirationMs: 3600000 # 1 час
   refreshExpirationMs: 604800000 # 7 дней
 redis:
-  url: #{your database url}
+  url: redis://redis:6379 #{your database url}
