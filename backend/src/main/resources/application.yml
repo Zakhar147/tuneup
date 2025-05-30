@@ -1,0 +1,38 @@
+spring:
+  app:
+    tabs-dir: tabs/
+  datasource:
+    url: #{your database url}
+    username: #{username for database }
+    password: #{password for database }
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  web:
+    resources:
+      static-locations: file:tabsFiles/
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: #{usename for mail system }
+    password: #{password for mail system }
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  data:
+    redis:
+      url: #{your database url}
+
+jwt:
+  secret: #{your secret}
+  accessExpirationMs: 3600000 # 1 час
+  refreshExpirationMs: 604800000 # 7 дней
+redis:
+  url: #{your database url}
