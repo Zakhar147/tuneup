@@ -51,13 +51,12 @@ docker-compose up --build
 
 ```
 TuneUp/
-├── backend/            # Spring Boot Backend
+├── backend/            # Spring Boot Backend with application.yml
 │   └── Dockerfile
-├── frontend/           # React + Vite Frontend
+├── frontend/           # React + Vite Frontend with .env
 │   └── Dockerfile
 ├── docker-compose.yml  # Docker Compose configuration
-├── .env                # Environment variables (included for demo)
-└── application.yml     # Spring config (safe version provided)
+
 ```
 
 ---
