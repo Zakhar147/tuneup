@@ -1,0 +1,16 @@
+.alphaTab svg * {
+    stroke-width: 0.7 !important; /* уменьшает толщину линий */
+    font-weight: 300 !important;  /* облегчает цифры и текст */
+  }
+
+.alphaTab svg {
+    color: #000000; /* изменяет цвет текста в SVG */
+    fill: #000000;  /* меняет цвет линий и фигур */
+    stroke: #000000; /* для границ/нотовой линии */
+}
+
+.dark .alphaTab svg {
+    color: #ffffff; /* изменяет цвет текста в SVG */
+    fill: #ffffff;  /* меняет цвет линий и фигур */
+    stroke: #ffffff; /* для границ/нотовой линии */
+}

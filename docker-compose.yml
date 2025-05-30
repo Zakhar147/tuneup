@@ -1,0 +1,70 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres
+    container_name: postgres_tuneup
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: tuneup_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+
+  pgadmin:
+      image: dpage/pgadmin4
+      container_name: pgadmin_tuneup
+      environment:
+          PGADMIN_DEFAULT_EMAIL: admin@example.com
+          PGADMIN_DEFAULT_PASSWORD: admin
+          PGADMIN_LISTEN_PORT: 9090
+          PGADMIN_SERVER_PORT: 5432
+          PGADMIN_SERVER_NAME: PostgreSQL
+      ports:
+          - "9090:9090"
+      depends_on:
+          - postgres
+            
+  redis:
+    image: redis:latest
+    container_name: redis_tuneup
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+
+  spring-app:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: spring_tuneup
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+      - redis
+    restart: unless-stopped
+    volumes:
+      - ./tabs:/app/tabs
+
+  react-app:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: react_tuneup
+    ports:
+      - "3000:3000"
+    working_dir: /app
+    command: ["npm", "run", "dev", "--", "--host"]
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - spring-app
+    restart: unless-stopped
+
+volumes:
+  redis_data:

@@ -1,0 +1,1 @@
+export { default as RagistrationForm} from "./ui/RagistrationForm";
