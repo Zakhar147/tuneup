@@ -20,7 +20,7 @@
 1. **Clone the repository:**
 
 ```bash
-git clone https://github.com/your-name/TuneUp.git
+git clone https://github.com/Zakhar147/TuneUp.git
 cd TuneUp
 ```
 
