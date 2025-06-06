@@ -5,12 +5,12 @@ import { usePaginatedSongs } from "@entities/Song";
 
 import { FlexBox } from "@shared/ui/FlexBox";
 import Hr from "@shared/ui/Hr";
-import { SearchInput } from "@shared/ui/Inputs";
 import { Typography } from "@shared/ui/Typography";
 import noImage from "@shared/assets/icons/no_image_song.png";
 import Spinner from "@shared/ui/Spinner";
 
 import clsx from "clsx";
+import { GenerateSongsButton } from "@features/generate-songs";
 
 export const SongListWidget: React.FC = () => {
   const [page, setPage] = useState(0);
@@ -18,9 +18,7 @@ export const SongListWidget: React.FC = () => {
 
   return (
     <>
-      <FlexBox justify="center" align="center" className="w-full py-[55px]">
-        <SearchInput placeholder="Find song" />
-      </FlexBox>
+      <GenerateSongsButton />
 
       <FlexBox
         direction="col"
@@ -44,11 +42,19 @@ export const SongListWidget: React.FC = () => {
         <Hr />
 
         {loading ? (
-          <FlexBox justify="center" align="center" className="w-full h-full min-h-[650px]">
+          <FlexBox
+            justify="center"
+            align="center"
+            className="w-full h-full min-h-[650px]"
+          >
             <Spinner className="w-[30px] h-[30px]" />
           </FlexBox>
         ) : (
-          <FlexBox direction="col" justify="start" className="w-full h-full  min-h-[650px]">
+          <FlexBox
+            direction="col"
+            justify="start"
+            className="w-full h-full  min-h-[650px]"
+          >
             {songs?.map((song) => (
               <SongListItemWidget
                 key={song.id}
@@ -61,22 +67,24 @@ export const SongListWidget: React.FC = () => {
           </FlexBox>
         )}
 
-        <FlexBox justify="center" className="py-[20px] gap-2 flex-wrap">
-          {Array.from({ length: totalPages }).map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setPage(i)}
-              className={clsx(
-                "px-4 py-1 rounded-lg text-sm transition",
-                i === page
-                  ? "bg-accent text-white shadow-md"
-                  : "text-black hover:bg-hoverBg dark:text-white dark:hover:bg-hoverBg"
-              )}
-            >
-              {i + 1}
-            </button>
-          ))}
-        </FlexBox>
+        {totalPages > 1 && (
+          <FlexBox justify="center" className="py-[20px] gap-2 flex-wrap">
+            {Array.from({ length: totalPages }).map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setPage(i)}
+                className={clsx(
+                  "px-4 py-1 rounded-lg text-sm transition",
+                  i === page
+                    ? "bg-accent text-white shadow-md"
+                    : "text-black hover:bg-hoverBg dark:text-white dark:hover:bg-hoverBg"
+                )}
+              >
+                {i + 1}
+              </button>
+            ))}
+          </FlexBox>
+        )}
       </FlexBox>
     </>
   );
