@@ -125,13 +125,38 @@ public class SongController {
 
         String lesson = "https://www.youtube.com/watch?v=0yxYsElpmFE&list=RDMM0yxYsElpmFE&start_radio=1";
 
-        List<String[]> funnySongs = List.of(
-                new String[]{"DJ Ковбаса", "Життя на мінімалках"},
-                new String[]{"MC Дупа", "Шо ти робиш, вийди з хати"},
-                new String[]{"DJ Нюхач", "Паті в маршрутці"}
+        List<String[]> officialSongs = List.of(
+                new String[]{"Олександр Верес", "Дорога додому"},
+                new String[]{"Анна Ладан", "Світло у ночі"},
+                new String[]{"Гурт Horizon", "Твій шлях"},
+                new String[]{"Марія Світанкова", "Крила надії"},
+                new String[]{"Євген Коваль", "Мелодія серця"},
+                new String[]{"Катерина Зоряна", "Знову йду"},
+                new String[]{"Артем Мельник", "Небо і земля"},
+                new String[]{"Софія Рай", "Літній дощ"},
+                new String[]{"Гурт Відлуння", "Пульс міста"},
+                new String[]{"Ірина Вітряна", "Без слів"},
+                new String[]{"Данило Шлях", "Нічне місто"},
+                new String[]{"Олеся Мирна", "Промінь"},
+                new String[]{"Гурт Ранок", "Серед тиші"},
+                new String[]{"Іван Кордоба", "Твої сліди"},
+                new String[]{"Аліна Синєва", "Де ти"},
+                new String[]{"Максим Листопад", "Осінній вітер"},
+                new String[]{"Олена Біла", "Глибина"},
+                new String[]{"Гурт Простір", "Мить"},
+                new String[]{"Віктор Синиця", "Мандрівник"},
+                new String[]{"Лідія Квіткова", "Теплий сніг"},
+                new String[]{"Олексій Тихий", "Спокій"},
+                new String[]{"Дарина Ластівка", "Поруч"},
+                new String[]{"Гурт Шляхетність", "Відчуй"},
+                new String[]{"Роман Журавель", "Дороги"},
+                new String[]{"Ганна Світла", "Дихає любов"},
+                new String[]{"Юрій Гордій", "Непорушний"},
+                new String[]{"Марина Лагідна", "Пісня для тебе"}
         );
 
-        for (String[] entry : funnySongs) {
+
+        for (String[] entry : officialSongs) {
             String artist = entry[0];
             String title = entry[1];
 
@@ -139,6 +164,6 @@ public class SongController {
             songService.saveSong(song);
         }
 
-        return ResponseEntity.ok(funnySongs.size() + " funny songs created.");
+        return ResponseEntity.ok(officialSongs.size() + " officialSongs songs created.");
     }
 }
