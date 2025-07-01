@@ -11,13 +11,15 @@ import java.util.List;
 @RequestMapping("/api/users")
 @CrossOrigin
 public class UserController {
-    private final UserService userService;
+
+    private final UserService userService; // Service for handling user-related operations
 
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }
 
+    // Endpoint to retrieve all registered users
     @GetMapping
     public List<Users> getAll() {
         return userService.getAllUsers();

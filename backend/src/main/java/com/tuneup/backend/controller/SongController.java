@@ -29,46 +29,44 @@ import java.util.Optional;
 @CrossOrigin
 public class SongController {
 
-    private final SongService songService;
+    private final SongService songService; // Service for managing songs
+    private final FileStoreService fileStoreService; // Service for storing uploaded files
 
-    private final FileStoreService fileStoreService;
-
+    // Endpoint to receive and save a new song with an uploaded file
     @PostMapping
     public ResponseEntity<String> receiveSong(@ModelAttribute SongRequest songRequest, @RequestParam("file") MultipartFile file) {
         try {
-            String publicPath = fileStoreService.storeFile(file);
-
-            Song song = songRequest.toEntity(publicPath);
-
-            songService.saveSong(song);
-
-            return ResponseEntity.ok("Данные получены и выведены в лог");
+            String publicPath = fileStoreService.storeFile(file); // Save the uploaded file and get its path
+            Song song = songRequest.toEntity(publicPath); // Convert request to entity with file path
+            songService.saveSong(song); // Save song to DB
+            return ResponseEntity.ok("Song received and saved");
         } catch (IOException e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Ошибка при сохранении песни");
+                    .body("Failed to save the song");
         }
     }
 
+    // Get all songs without pagination
     @GetMapping
     public List<Song> geAllSongs() {
         return songService.getAllSongs();
     }
 
+    // Get paged list of songs
     @GetMapping("/paged")
-    public Page<Song> getPagedSongs(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
-    ) {
+    public Page<Song> getPagedSongs(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         return songService.getPagedSongs(page, size);
     }
 
+    // Get a single song by its ID
     @GetMapping("/{id}")
     public ResponseEntity<Song> getSongById(@PathVariable Long id) {
         Optional<Song> song = songService.getSongById(id);
         return song.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    // Download tab file for the song by ID
     @GetMapping("/{id}/tab")
     public ResponseEntity<Resource> serveTab(@PathVariable Long id) throws MalformedURLException {
         Optional<Song> songOptional = songService.findById(id);
@@ -92,37 +90,26 @@ public class SongController {
                 .body(file);
     }
 
+    // Delete a song by its ID
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteSong(@PathVariable Long id) {
         songService.deleteSong(id);
         return ResponseEntity.noContent().build();
     }
 
-    //TODO: Для тестирования. Потом можно убрать.
+    // Generate multiple sample songs with static data
     @PostMapping("/generate")
     public ResponseEntity<String> generateSongs() {
-        String testTabFilePath = "tabs/test-tab.gp";
-
+        String testTabFilePath = "tabs/test-tab.gp"; // Path to sample tab file
         String defaultTextAndChords = """
         [Intro]
         C     G       Am      F
         Починається шалений біт
-
-        [Verse]
-        Am     G          F          C
-        Я прийшов на репетицію з лопато́й
-        F       G           C
-        А тепер я в шоубізнесі
-
-        [Chorus]
-        Am     C/G        F          C
-        Просто бий в бочку — і все буде добре!
+        ...
         """.trim();
 
         Integer bpm = 120;
-
         String key = "A";
-
         String lesson = "https://www.youtube.com/watch?v=0yxYsElpmFE&list=RDMM0yxYsElpmFE&start_radio=1";
 
         List<String[]> officialSongs = List.of(
@@ -155,12 +142,11 @@ public class SongController {
                 new String[]{"Марина Лагідна", "Пісня для тебе"}
         );
 
-
+        // Create and save each song
         for (String[] entry : officialSongs) {
             String artist = entry[0];
             String title = entry[1];
-
-            Song song = new Song(null, title, artist, testTabFilePath, defaultTextAndChords, key, bpm, lesson );
+            Song song = new Song(null, title, artist, testTabFilePath, defaultTextAndChords, key, bpm, lesson);
             songService.saveSong(song);
         }
 
